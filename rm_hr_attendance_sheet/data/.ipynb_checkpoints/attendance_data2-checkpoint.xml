@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data  noupdate="0">
+        <record id="work_entry_type_attendance_sheet_total_worked_hours"
+                model="hr.work.entry.type">
+            <field name="name">Attendance Sheet Termination</field>
+            <field name="code">ATTSHTERM</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_total_worked_hours" model="hr.salary.rule">
+            <field name="code">WorkedHours</field>
+            <field name="name">Worked Hours</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTTOTWO and
+                worked_days.ATTSHTTOTWO.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.ATTSHTTOTWO.number_of_hours</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">Total Worked Hours Allowance</field>
+        </record>
+        <!--        ##################################################################################-->
+        <record id="work_entry_type_attendance_sheet_house_allowances"
+                model="hr.work.entry.type">
+            <field name="name">منحة غلاء معيشه</field>
+            <field name="code">ATTSHTHOUSAL</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_house_allowances" model="hr.salary.rule">
+            <field name="code">HouseAllowance</field>
+            <field name="name">منحة غلاء معيشه</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.house_allowances</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">منحة غلاء معيشه</field>
+        </record>
+
+        <!--        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <record id="work_entry_type_attendance_sheet_overtime_allowance"
+                model="hr.work.entry.type">
+            <field name="name">علاوة اضافيه</field>
+            <field name="code">ATTSHTOVERT</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_overtime_allowance" model="hr.salary.rule">
+            <field name="code">OVERTIME</field>
+            <field name="name">علاوة اضافيه</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTOVERT and
+                worked_days.ATTSHTOVERT.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.ATTSHTOVERT.number_of_hours</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">علاوة اضافيه</field>
+        </record>
+        <!--        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <record id="work_entry_type_attendance_sheet_treatment_allowance"
+                model="hr.work.entry.type">
+            <field name="name">علاوة سنوات سابقه</field>
+            <field name="code">ATTSHTTREAT</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_treatment_allowance" model="hr.salary.rule">
+            <field name="code">TREAT</field>
+            <field name="name">علاوة سنوات سابقه</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTTREAT and
+                worked_days.ATTSHTTREAT.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.ATTSHTTREAT.number_of_hours</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">علاوة سنوات سابقه</field>
+        </record>
+
+        <!--        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <record id="work_entry_type_attendance_sheet_transport_allowances"
+                model="hr.work.entry.type">
+            <field name="name">بدل انتقال</field>
+            <field name="code">ATTSHTTRANSPORT</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_transport_allowances" model="hr.salary.rule">
+            <field name="code">TRANSPORT</field>
+            <field name="name">بدل انتقال</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.transport_allowances</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">بدل انتقال</field>
+        </record>
+
+        <!--        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <record id="work_entry_type_attendance_sheet_living_allowances"
+                model="hr.work.entry.type">
+            <field name="name">علاوة يوليو</field>
+            <field name="code">ATTSHTLIVING</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_living_allowances" model="hr.salary.rule">
+            <field name="code">LIVING</field>
+            <field name="name">علاوة يوليو</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.living_allowances</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">علاوة يوليو</field>
+        </record>
+
+        <!--        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <record id="work_entry_type_attendance_sheet_nature_of_work_allowances"
+                model="hr.work.entry.type">
+            <field name="name">غلاء معيشة</field>
+            <field name="code">ATTSHTNATURE</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_nature_of_work_allowances" model="hr.salary.rule">
+            <field name="code">NATURE</field>
+            <field name="name">غلاء معيشة</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.nature_of_work_allowances</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">غلاء معيشة</field>
+        </record>
+
+        <!--        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+        <record id="work_entry_type_attendance_sheet_telephone_allowance"
+                model="hr.work.entry.type">
+            <field name="name">بدل تليفون</field>
+            <field name="code">ATTSHTTELEPHONE</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_telephone_allowance" model="hr.salary.rule">
+            <field name="code">TELEPHONE</field>
+            <field name="name">بدل تليفون</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.telephone_allowance</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">بدل تليفون</field>
+        </record>
+
+
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_general_deductions"
+                model="hr.work.entry.type">
+            <field name="name">Attendance Sheet General Deductions</field>
+            <field name="code">ATTSHTGENAL</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_insurance_general_deductions" model="hr.salary.rule">
+            <field name="code">GeneralDeductions</field>
+            <field name="name">General Deductions</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTGENAL and
+                worked_days.ATTSHTGENAL.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSHTGENAL.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">General Deductions</field>
+        </record>
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_social_insurance_deductions"
+                model="hr.work.entry.type">
+            <field name="name">سلفة تأمينات</field>
+            <field name="code">ATTSHTSOCIALINS</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_social_insurance_deductions" model="hr.salary.rule">
+            <field name="code">SOCIALINSURANCE</field>
+            <field name="name">سلفة تأمينات</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTSOCIALINS and
+                worked_days.ATTSHTSOCIALINS.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSHTSOCIALINS.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">سلفة تأمينات</field>
+        </record>
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_medical_insurance_deductions"
+                model="hr.work.entry.type">
+            <field name="name">سلفة ايصال نقدية</field>
+            <field name="code">ATTSHTINSURANCE</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_medical_insurance_deductions" model="hr.salary.rule">
+            <field name="code">MEDICAL</field>
+            <field name="name">سلفة ايصال نقدية</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTINSURANCE and
+                worked_days.ATTSHTINSURANCE.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSHTINSURANCE.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">سلفة ايصال نقدية</field>
+        </record>
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_fingerprint_deductions"
+                model="hr.work.entry.type">
+            <field name="name">صندوق طوارئ</field>
+            <field name="code">ATTSHTFINGER</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_fingerprint_deductions" model="hr.salary.rule">
+            <field name="code">FINGER</field>
+            <field name="name">صندوق طوارئ</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTFINGER and
+                worked_days.ATTSHTFINGER.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSHTFINGER.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">صندوق طوارئ</field>
+        </record>
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_administrative_deductions"
+                model="hr.work.entry.type">
+            <field name="name">صندوق زماله</field>
+            <field name="code">ATTSHTADMIN</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_administrative_deductions" model="hr.salary.rule">
+            <field name="code">ADMIN</field>
+            <field name="name">صندوق زماله</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTADMIN and
+                worked_days.ATTSHTADMIN.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSHTADMIN.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">صندوق زماله</field>
+        </record>
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_absence_without_permission_deductions"
+                model="hr.work.entry.type">
+            <field name="name">تأمين اجتماعي</field>
+            <field name="code">ATTSHTABSWLIV</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_absence_without_permission_deductions" model="hr.salary.rule">
+            <field name="code">ABSENCE</field>
+            <field name="name">تأمين اجتماعي</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result =(worked_days.ATTSHAB and worked_days.ATTSHAB.number_of_hours > 0) or
+                False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result=-(worked_days.ATTSHAB.number_of_hours * (contract.wage
+                /(8*26)))
+            </field>
+            <field name="sequence" eval="70"/>
+            <field name="note">تأمين اجتماعي</field>
+        </record>
+
+        <!--######################################################################################################################-->
+
+        <record id="work_entry_type_attendance_sheet_medical_employee_penalty_deductions"
+                model="hr.work.entry.type">
+            <field name="name">Attendance Sheet employee penalty</field>
+            <field name="code">ATTSHTPENDED</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_insurance_medical_employee_penalty_deductions" model="hr.salary.rule">
+            <field name="code">EmployeePenalty</field>
+            <field name="name">Employee Penalty</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHTPENDED and
+                worked_days.ATTSHTPENDED.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSHTPENDED.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">Employee Penalty Deductions</field>
+        </record>
+        <!--######################################################################################################################-->
+
+
+        <record id="hr_salary_rule_loans_deduction" model="hr.salary.rule">
+            <field name="code">LOANS</field>
+            <field name="name">LOANS Deduction</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSILOANSDED and
+                worked_days.ATTSILOANSDED.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSILOANSDED.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">Loans Deduction</field>
+        </record>
+        <!--######################################################################################################################-->
+
+        <record id="work_entry_type_attendance_sheet_profit_tax_percent_deduction"
+                model="hr.work.entry.type">
+            <field name="name">اشتراك جمعية</field>
+            <field name="code">ATTSIPROFTAXDED</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_profit_tax_percent_deduction" model="hr.salary.rule">
+            <field name="code">profittaxpercent</field>
+            <field name="name">اشتراك جمعية</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSIPROFTAXDED and
+                worked_days.ATTSIPROFTAXDED.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result =-(worked_days.ATTSIPROFTAXDED.number_of_hours)</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">اشتراك جمعية</field>
+        </record>
+
+        <!--######################################################################################################################-->
+
+        <record id="work_entry_type_attendance_sheet_bonus_request"
+                model="hr.work.entry.type">
+            <field name="name">Attendance Sheet Bonus Request</field>
+            <field name="code">ATTSHBR</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_bonus_request_allowance" model="hr.salary.rule">
+            <field name="code">BONUSREQUEST</field>
+            <field name="name">BONUS REQUEST ALLOWANCE</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (worked_days.ATTSHBR and
+                worked_days.ATTSHBR.number_of_hours > 0) or False
+            </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = worked_days.ATTSHBR.number_of_hours</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">BONUS REQUEST Allowance</field>
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_Regular_bonus_for_managers"
+                model="hr.work.entry.type">
+            <field name="name">مكافئة انتظام للمديرين</field>
+            <field name="code">ATTSHTRBM</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_Regular_bonus_for_managers" model="hr.salary.rule">
+            <field name="code">Regularbonusformanagers</field>
+            <field name="name">مكافئة انتظام للمديرين</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.Regular_bonus_for_managers</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">مكافئة انتظام للمديرين</field>
+        </record>
+
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_Regular_regularity_equivalent"
+                model="hr.work.entry.type">
+            <field name="name">مكافئة انتظام عادية</field>
+            <field name="code">ATTSHTRRE</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_Regular_regularity_equivalent" model="hr.salary.rule">
+            <field name="code">Regularbonusformanagers</field>
+            <field name="name">مكافئة انتظام عادية</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.Regular_regularity_equivalent</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">مكافئة انتظام عادية</field>
+        </record>
+        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_Incentive_bonus"
+                model="hr.work.entry.type">
+            <field name="name">مكافئات تشجيعيه</field>
+            <field name="code">ATTSHTIBON</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_Incentive_bonus" model="hr.salary.rule">
+            <field name="code">Incentivebonus</field>
+            <field name="name">مكافئات تشجيعيه</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.Incentive_bonus</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">مكافئات تشجيعيه</field>
+        </record>
+                <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_motivation"
+                model="hr.work.entry.type">
+            <field name="name">الحافز</field>
+            <field name="code">ATTSHTIMOTI</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_motivation" model="hr.salary.rule">
+            <field name="code">motivationAA</field>
+            <field name="name">الحافز</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.motivation</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">الحافز</field>
+        </record>
+                        <!--######################################################################################################################-->
+        <record id="work_entry_type_attendance_sheet_profit_account"
+                model="hr.work.entry.type">
+            <field name="name">حساب ارباح</field>
+            <field name="code">ATTSHTPROFTACC</field>
+            <field name="color">3</field>
+            <field name="is_leave">False</field>
+            <field name="round_days">HALF</field>
+            <field name="round_days_type">DOWN</field>
+        </record>
+
+        <record id="hr_salary_rule_profit_account" model="hr.salary.rule">
+            <field name="code">profitaccount</field>
+            <field name="name">حساب ارباح</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id"
+                   ref="rm_hr_attendance_sheet.structure_attendance_sheet"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.profit_account</field>
+            <field name="sequence" eval="70"/>
+            <field name="note">حساب ارباح</field>
+        </record>
+    </data>
+</odoo>

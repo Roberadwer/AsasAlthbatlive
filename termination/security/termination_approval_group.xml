@@ -1,0 +1,6 @@
+<odoo>
+    <record id='group_can_approve_to_termination' model='res.groups'>
+        <field name='name'>Can Approve to Termination</field>
+        <field name='category_id' ref='base.module_category_human_resources_employees'/>
+    </record>
+</odoo>
