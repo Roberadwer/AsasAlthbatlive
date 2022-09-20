@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="account_move_qr_code" model="ir.ui.view">
+            <field name="name">account_move_qr_code</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                    <field name="confirmation_datetime"/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="paperformat_inv" model="report.paperformat">
+            <field name="name">Invoice</field>
+            <field name="default" eval="False" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">25</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">30</field>
+        </record>
+<!--         <template id="report_style_inherit" inherit_id="web.report_assets_common">
+            <xpath expr="." position="inside">
+                <link href="/einv_sa/static/css/report_style.css" rel="stylesheet" type="text/css"/>
+            </xpath>
+        </template> -->
+        <!-- report action  -->
+        <record id="action_tax_invoice_report" model="ir.actions.report">
+            <field name="name">Proforma Invoice</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">einv_sa.account_move_report</field>
+            <field name="report_file">einv_sa.account_move_report</field>
+            <field name="print_report_name">'Invoice - %s' % (object.name).replace('/', '')</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="einv_sa.paperformat_inv"/>
+        </record>
+        <template id="einv_sa.inv_header">
+            <div class="row">
+                <div class="col-12 text-center" style="font-size:1.2rem;padding-bottom: 15px;margin-top:-55px">
+                    <Strong>Preforma Invoice </Strong>
+                </div>
+            </div>
+            <div class="oe_structure"/>
+        </template>
+        <template id="einv_sa.partner_info">
+            <div class="row">
+                <div class="border col-5 text-center" style="border-style: 1px solid black; important!"><Strong><span t-field="doc.company_id.name"/></Strong></div>
+                <div class="col-1"></div>
+                <div class="border col-6 text-center" style="border-style: 1px solid black;"><Strong><span t-field="doc.partner_id.name"/></Strong></div>
+            </div>
+            <div class="row">
+                <div class="border col-5 text-center" style="border-style: 1px solid black;"><Strong><span t-field="doc.company_id.foreign_name"/></Strong></div>
+                <div class="col-1"></div>
+                <div class="border col-6 text-center" style="border-style: 1px solid black;"><Strong><span t-field="doc.partner_id.foreign_name"/></Strong></div>
+            </div>
+            <div class="row">
+                <div class="border col-5 text-center" style="border-style: 1px solid black;"><Strong>VAT No.:<span t-field="doc.company_id.vat"/></Strong></div>
+                <div class="col-1"></div>
+                <div class="border col-6 text-center" style="border-style: 1px solid black;"><Strong>VAT No.:<span t-field="doc.partner_id.vat"/></Strong></div>
+            </div>
+            <div class="row">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Contract No.:</span><span style="display: block;">رقم العقد</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">Client No.:</span><span style="display: block;">رقم العميل</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.partner_id.partner_number"/></div>
+            </div>
+            <div class="row">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Quotation #:</span><span style="display: block;">رقم العرض</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.name"/></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">Project Code / Sales Order :</span><span style="display: block;">رقم المشروع / رقم امر البيع</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"></div>
+            </div>
+            <div class="row">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Invoice No.:</span><span style="display: block;">رقم الفاتورة</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.name"/></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">Contact Person:</span><span style="display: block;">المسئول</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.partner_id.contact_person"/></div>
+            </div>
+            <div class="row">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Invoice Date:</span><span style="display: block;">تاريخ الفاتورة</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.date_order"/></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">National Address:</span><span style="display: block;">العنوان الوطنى</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.partner_id.street"/><span t-field="doc.partner_id.street2"/><br/></div>
+            </div>
+            <div class="row">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Invoice Period:</span><span style="display: block;">فترة الفاتورة</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">Email:</span><span style="display: block;">البريد الالكتروني</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.partner_id.email"/></div>
+            </div>
+            <div class="row">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Payment terms:</span><span style="display: block;">شروط الدفع</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-field="doc.payment_term_id.name"/></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">Project Name:</span><span style="display: block;">اسم المشروع</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"></div>
+            </div>
+            <div class="row" style="padding-bottom: 20px">
+                <div class="border col-2 text-left" style="border-style: 1px solid black;"><span style="display: block;">Due date:</span><span style="display: block;">تاريخ الاستحقاق</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"><span t-esc="doc.date_order.strftime('%d-%m-%Y')"/></div>
+                <div class="col-1"></div>
+                <div class="border col-3 text-left" style="border-style: 1px solid black;"><span style="display: block;">P.O #:</span><span style="display: block;">رقم امر الشراء</span></div>
+                <div class="border col-3 text-center" style="border-style: 1px solid black;"></div>
+
+            </div>
+            <div class="oe_structure"/>
+        </template>
+        <template id="einv_sa.inv_lines">
+            <table class="border table table-sm o_main_table  o_report_block_table" name="invoice_line_ids_table">
+                <thead class="border text-center">
+                    <tr>
+
+                        <td class="border text-left"><div class="mw-100">Description</div><div class="mw-100 ">الوصف</div></td>
+                        <td class="border"><div class="mw-100">Quantity</div><div class="mw-100 "> الكمية</div></td>
+                        <td class="border"><div class="mw-100">Price Unit</div><div class="mw-100 ">سعر الوحدة</div></td>
+
+                        <td class="border"><div class="mw-100">Discount %</div><div class="mw-100 ">نسبة الخصم</div></td>
+<!--                         <td class="border"><div class="mw-100">Discount amount</div><div class="mw-100 ">مبلغ الخصم</div></td>
+ -->
+                        <td class="border"><div class="mw-100">Total Price</div><div class="mw-100 ">الاجمالى</div></td>
+
+<!--                         <td class="border"><div class="mw-100">Vat Amount</div><div class="mw-100 ">قيمة الضريبة</div></td> -->
+                        <td class="border"><div class="mw-100">Taxes</div><div class="mw-100 "> نسبة الضريبة</div></td>
+
+                        <td class="border"><div class="mw-100">Total Price(with Vat)</div><div class="mw-100 ">الاجمالي شامل الضريبة</div></td>
+
+                    </tr>
+                </thead>
+                <tbody class="invoice_line_ids_tbody border text-center" >
+                    <!-- foreach-->
+                    <tr t-foreach="doc.order_line" t-as="line" class="border">
+                        <td class="border text-left"><span t-field="line.name"/></td>
+                        <td class="border"><span t-field="line.product_uom_qty"/></td>
+                        <td class="border"><span t-field="line.price_unit"/></td>
+                        <td class="border"><span t-field="line.discount"/></td>
+<!--                         <td class="border"><span t-field="line.einv_amount_discount"/></td> -->
+                        <td class="border"><span t-field="line.price_subtotal"/></td>
+<!--                         <td class="border"><span t-field="line.einv_amount_tax"/></td> -->
+                        <!--                            <td><span t-field="line.tax_ids[0].name"/></td>-->
+                        <td  t-attf-class="{{ 'border d-none d-md-table-cell' if report_type == 'html' else 'border' }}">
+                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"
+                                  id="line_tax_ids"/>
+                        </td>
+                        <td class="border"><span t-field="line.price_total"/></td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="oe_structure"/>
+        </template>
+        <template id="einv_sa.inv_total">
+            <div class="row" style="padding-top: 20px;page-break-inside: avoid">
+                <div class="col-5">
+                    <table style="page-break-inside: avoid;">
+                        <div class="row ">
+                            <div class="col-12"><span>Bank Information: </span></div>
+                        </div>
+                        <div class="row border  text-left">
+                            <div class="col-12">Benefciary A/C Name: <span t-field="doc.company_id.beneficiary"></span> </div>
+                        </div>
+                        <div class="row border  text-left" >
+                            <div class="col-12">Bank Name: <span t-field="doc.company_id.bank_name"></span> </div>
+                        </div>
+                        <div class="row border  text-left">
+                            <div class="col-12">Account #: <span t-field="doc.company_id.account_nubmer"></span> </div>
+                        </div>
+                        <div class="row border  text-left">
+                            <div class="col-12">IBAN: <span t-esc="doc.company_id.iban"></span> </div>
+                        </div>
+                    </table>
+                    <div class="row" style="padding: 5px;page-break-inside: avoid">
+                        <div class="col-6" style="page-break-inside: avoid">
+<!--                              <img t-att-src="'/report/barcode/?type=%s&amp;width=%s&amp;height=%s&amp;value=Seller : %s;Vat_Number : %s;date : %s;Total_Vat : %s;Total_Amount : %s'%('QR', 100, 100,doc.company_id.name,doc.company_id.vat,doc.invoice_date,doc.amount_tax_signed,doc.amount_total)"-->
+
+<!--                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', doc.qr_code_str, 150, 150)"
+                                style="page-break-inside: avoid"
+                                   class="float-center my-1"/> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-6 text-left width: 100%">
+                    <table style="page-break-inside: avoid;">
+                        <div class="row text-left">
+                            <div class="col-6"><span >Total Amount: </span></div>
+                            <div class="col-6 text-right" ><span >:الاجمالي</span></div>
+                        </div>
+                        <div class="row border ">
+                            <div class="col-4" ><span >Total without VAT</span></div>
+                            <div class="col-4 text-right" ><span >الاجمالي</span></div>
+                            <div class="col-4 text-center" ><span   t-esc="doc.get_total_amount()"></span></div>
+                        </div>
+                        <div class="row border ">
+                            <div class="col-4">Discount</div>
+                            <div class="col-4 text-right">إجمالي الخصومات</div>
+                            <div class="col-4 text-center"><span
+                                    t-esc="doc.get_discount_amount()"></span></div>
+                        </div>
+                        <div class="row border ">
+                            <div class="col-4">Net without VAT</div>
+                            <div class="col-4 text-right">الإجمالي الخاضع للضريبة</div>
+                            <div class="col-4 text-center"><span t-field="doc.amount_untaxed"></span></div>
+                        </div>
+                        <div class="row border ">
+                            <div class="col-4">Total VAT</div>
+                            <div class="col-4 text-right">الضريبة</div>
+                            <div class="col-4 text-center"><span t-field="doc.amount_tax"></span></div>
+                        </div>
+                        <div class="row border ">
+                            <div class="col-4">Total</div>
+                            <div class="col-4 text-right">الإجمالي </div>
+                            <div class="col-4 text-center"><span t-field="doc.amount_total"></span></div>
+                        </div>
+                    </table>
+                </div>
+            </div>
+            <div class="oe_structure"/>
+
+        </template>
+        <template id="custom_standard">
+                    <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                    <div class="o_boxed_header">
+                    <div class="row mb8">
+                        <div class="col-6">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                        </div>
+                        <div class="col-6 text-right mb4">
+                            <h4 class="mt0" t-field="company.report_header"/>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div t-attf-class="article o_report_layout_boxed o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="pt-5">
+                        <!-- This div ensures that the address is not cropped by the header. -->
+                        <t t-call="web.address_layout"/>
+                    </div>
+                    <t t-raw="0"/>
+                </div>
+
+                <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+                    <div class="text-center">
+                        <div t-call="einv_sa.financial_layout_row">
+                        </div>
+                        <ul class="list-inline">
+                            <li t-if="company.phone" class="list-inline-item"><span class="o_force_ltr" t-field="company.phone"/></li>
+                            <li t-if="company.email" class="list-inline-item"><span t-field="company.email"/></li>
+                            <li t-if="company.website" class="list-inline-item"><span t-field="company.website"/></li>
+                        </ul>
+                        <div t-field="company.report_footer"/>
+                        <div t-if="report_type == 'pdf'">
+                            Page: <span class="page"/> / <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        <template id="custom_external">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+    <!--         <t t-if="company.external_report_layout_id" t-call="{{company.external_report_layout_id.key}}"><t t-raw="0"/></t> -->
+            <t t-call="einv_sa.custom_standard"><t t-raw="0"/></t>
+
+        </template>
+        <!-- main document template -->
+        <template id="einv_sa.account_move_report_document">
+            <t t-call="einv_sa.custom_external">
+                <t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+                <div class="page">
+
+                    <!-- Invoice fields-->
+                    <t t-call="einv_sa.inv_header"/>
+
+                    <!-- partner fields-->
+                    <t t-call="einv_sa.partner_info"/>
+
+                    <!-- Invoice fields-->
+                    <t t-call="einv_sa.inv_lines" t-lang="ar"/>
+
+                    <!-- Invoice total-->
+                    <t t-call="einv_sa.inv_total"/>
+                </div>
+            </t>
+        </template>
+        <!-- main template -->
+        <template id="einv_sa.account_move_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.create_uid.lang"/>
+                    <t t-call="einv_sa.account_move_report_document"/>
+                </t>
+            </t>
+        </template>
+        <!-- external layout -->
+        <odoo>
+    <data>   
+
+    </data>
+</odoo>
+    </data>
+</odoo>
