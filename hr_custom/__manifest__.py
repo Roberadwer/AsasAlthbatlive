@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','hr_contract','project','einv_sa'],
+    'depends': ['base','hr_contract','project'],
 
     # always loaded
     'data': [
