@@ -77,6 +77,6 @@ class hr_custom(models.Model):
     @api.model
     def create(self,vals):
         res = super().create(vals)
-        res.custom_id = res.company_id.prefix + '-' + str(res.id)
+        res.custom_id = 'EMP-' + str(res.id)
         return res
         
