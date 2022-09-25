@@ -1,0 +1,213 @@
+<odoo>
+    <data>
+        <record id="hr_termination_form_view" model="ir.ui.view">
+            <field name="name">hr.termination.form.view</field>
+            <field name="model">hr.termination</field>
+            <field name="arch" type="xml">
+                <form string="Employees Termination">
+                    <header>
+                        <button name="accounting_2_confirm" string="Approve" class="oe_highlight" states="draft"
+                                type="object" groups="account.group_account_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                                <field name="attachment_ids" widget="many2many_binary" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly':[('state','=','confirm')]}"/>
+                                <field name="termination_type" attrs="{'readonly':[('state','=','confirm')]}"/>
+                                <field name="employee_company_id"/>
+                                <field name="employee_department_id"/>
+                                <field name="contract_id"/>
+                                <field name="sales_person" invisible="1"/>
+                                <field name="saudi" groups="hr.group_hr_user"/>
+                                <!--                                <br></br>-->
+                                <!--                                <br></br>-->
+                                <field name="final_total" readonly="1" groups="hr.group_hr_user"/>
+
+                                <!--                                <field name="journal_id"-->
+                                <!--                                       attrs="{'invisible':[('state','!=','financial_manager')], 'required':[('state','=','financial_manager')]}"/>-->
+                                <!--                                <field name="debit_account_id"-->
+                                <!--                                       attrs="{'invisible':[('state','!=','financial_manager')], 'required':[('state','=','financial_manager')]}"/>-->
+                                <!--                                <field name="credit_account_id"-->
+                                <!--                                       attrs="{'invisible':[('state','!=','financial_manager')], 'required':[('state','=','financial_manager')]}"/>-->
+                                <!--                                <field name="account_move_id" attrs="{'invisible':[('state','!=','approved')]}"/>-->
+                            </group>
+                            <group>
+                                <field name="joining_date"/>
+                                <field name="contract_joining_date" invisible="1"/>
+                                <field name="today_date"/>
+                                <field name="comprehensive_wage" readonly="1" groups="hr.group_hr_user"/>
+                                <field name="day_amount" readonly="1" groups="hr.group_hr_user"/>
+                                <field name="total" readonly="1" force_save="1" invisible="1"
+                                       groups="hr.group_hr_user"/>
+                                <field name="duration_days"/>
+                                <field name="duration"/>
+                                <field name="left_vacation_days" readonly="1"/>
+                                <field name="wage_day_amount" readonly="1" invisible="0" groups="hr.group_hr_user"/>
+                                <field name="left_vacation_amount" readonly="1" groups="hr.group_hr_user"/>
+                                <field name="last_working_day"/>
+                                <field name="last_working_days" readonly="1" force_save="1"/>
+                                <field name="deserved_salary" readonly="1" force_save="0" groups="hr.group_hr_user"/>
+                                <field name="cancel_deserved_salary"/>
+                                <field name="absence_days"/>
+                                <field name="new_absence_days_deduction" groups="hr.group_hr_user"/>
+                                <field name="outstanding_loans" readonly="1" force_save="1" groups="hr.group_hr_user"/>
+                                <field name="new_other_allowances" attrs="{'readonly':[('state','=','confirm')]}"
+                                       groups="hr.group_hr_user"/>
+                                <field name="new_other_deductions" attrs="{'readonly':[('state','=','confirm')]}"
+                                       groups="hr.group_hr_user"/>
+                                <field name="refundable_advance" groups="hr.group_hr_user"/>
+                                <field name="refundable_bonus" groups="hr.group_hr_user"/>
+                                <field name="indemnity" force_save="1" groups="hr.group_hr_user"/>
+                                <field name="approved" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Approvals" name="lines" groups="hr.group_hr_user">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="user_id"/>
+                                        <field name="date_of_approval"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Accounting Configurations">
+                                <group>
+
+
+                                    <group string="قيمة الإجازات المُتبقية" groups="hr.group_hr_user">
+                                        <field name="left_vacation_amount" readonly="1"/>
+                                        <field name="left_vacation_amount_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="left_vacation_amount_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="left_vacation_amount_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="left_vacation_amount_account_move_id" string="Account Move"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                    </group>
+                                    <group string="Deserved Salary" groups="hr.group_hr_user">
+                                        <field name="deserved_salary" readonly="1"/>
+                                        <field name="deserved_salary_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="deserved_salary_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="deserved_salary_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="deserved_salary_move_id" string="Account Move"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                    </group>
+                                    <group string="Outstanding Loans" groups="hr.group_hr_user">
+                                        <field name="outstanding_loans" readonly="1"/>
+                                        <field name="outstanding_loans_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="outstanding_loans_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="outstanding_loans_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="outstanding_loans_move_id" string="Account Move"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                    </group>
+                                    <group string="Absence Days Deduction" groups="hr.group_hr_user">
+                                        <field name="absence_days_deduction" readonly="1"/>
+                                        <field name="absence_days_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="absence_days_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="absence_days_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="absence_days_move_id" string="Account Move"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                    </group>
+                                    <group string="Other Allowances" groups="hr.group_hr_user">
+                                        <field name="other_allowances" readonly="1"/>
+                                        <field name="other_allowances_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="other_allowances_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="other_allowances_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="other_allowances_move_id" string="Account Move"
+                                               attrs="{'invisible':[('state','!=','confirm')]}"/>
+                                    </group>
+                                    <group string="Other Deductions" groups="hr.group_hr_user">
+                                        <field name="other_deductions" readonly="1"/>
+                                        <field name="other_deductions_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="other_deductions_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="other_deductions_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="other_deductions_move_id" string="Account Move"
+                                               attrs="{'invisible':[('state','!=','confirm')]}"/>
+                                    </group>
+                                    <group string="قيمة مكافأة نهاية الخدمة" groups="hr.group_hr_user">
+                                        <field name="indemnity" readonly="1"/>
+                                        <field name="indemnity_journal_id" string="Journal"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="indemnity_debit_account_id" string="Debit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="indemnity_credit_account_id" string="Credit Account"
+                                               attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                        <field name="indemnity_move_id" string="Account Move"
+                                               attrs="{'invisible':[('state','!=','confirm')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Internal Notes" name="internal_notes">
+                                <field name="notes" placeholder="Add a note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_termination_tree_view" model="ir.ui.view">
+            <field name="name">hr.termination.tree.view</field>
+            <field name="model">hr.termination</field>
+            <field name="arch" type="xml">
+                <tree string="Employees Termination">
+                    <field name="employee_id"/>
+                    <field name="employee_department_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="act_hr_termination" model="ir.actions.act_window">
+            <field name="name">Employees Termination</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.termination</field>
+            <field name="view_mode">tree,form</field>
+            <!--            <field name="domain">[('employee_id.user_id.id','=',uid)]</field>-->
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('hr_termination_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('hr_termination_form_view')})]"/>
+        </record>
+
+        <menuitem id="menu_hr_termination"
+                  name="Employees Termination"
+                  parent="hr.menu_hr_employee_payroll"
+                  action="act_hr_termination"
+                  sequence="6"/>
+
+        <record id="view_employee_form_loan_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.loan.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='visa_expire']" position="after">
+                    <field name="joining_date"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

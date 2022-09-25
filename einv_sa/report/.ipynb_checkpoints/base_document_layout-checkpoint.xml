@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- report qweb view -->
+        <!--         <span t-field="company.report_footer"/>-->
+        <template id="financial_layout_row">
+<!--            <div class="row">-->
+<!--                <div class="col-12">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-6 text-center"><span>CR No:</span><span t-field="company.company_registry"></span></div>-->
+<!--                    </div>-->
+<!--                    <div class="col-6" name="company_address">-->
+<!--                        <div t-field="company.partner_id"-->
+<!--                            t-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'-->
+<!--                        />-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-6">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-6">-->
+<!--                    <ul class="list-unstyled">-->
+<!--                        <li t-if="company.website">CR No: <span t-field="company.company_registry"/></li>-->
+<!--                        <li t-if="company.website"><span t-field="company.website"/></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--                <div class="col-5 offset-1" name="company_address">-->
+<!--                    <ul class="list-unstyled">-->
+<!--                        <li t-if="company.phone">Tel: <span class="o_force_ltr" t-field="company.phone"/></li>-->
+<!--                        <li t-if="company.email"><span t-field="company.email"/></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+                <div class="row">
+                    <div class="col-12 text-center"><span>CR No:</span><span t-field="company.company_registry"></span></div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <t t-if="company.street">
+                            <span t-field="company.street"></span>,
+                        </t>
+                        <t t-if="company.street2">
+                            <span t-field="company.street2"></span>,
+                        </t>
+                        <t t-if="company.city">
+                            <span t-field="company.city"></span>,
+                        </t>
+                        <t t-if="company.zip">
+                            <span t-field="company.zip"></span>,
+                        </t>
+                        <t t-if="company.country_id">
+                            <span t-field="company.country_id"></span>,
+                        </t>
+                    </div>
+                </div>
+<!--            </div>-->
+
+
+        </template>
+
+        <template id="financial_layout_row_ul">
+            <ul class="list-inline mb4">
+                <!-- using the list-inline-item class from bootstrap causes weird behaviours in pdf report
+                     adding d-inline class fixes the problem-->
+                <li t-if="company.company_registry" class="list-inline-item d-inline mx-2">
+                    <span>CR No:</span><span t-field="company.company_registry"></span>
+<!--                    <span>:رقم سجل الشركة</span>-->
+                </li>
+
+<!--                <li t-if="company.vat"  class="list-inline-item d-inline">-->
+<!--                    <span>Vat No:</span>-->
+<!--                    <span t-field="company.vat"></span>-->
+<!--                    <span>:الرقم الضريبي</span>-->
+<!--                </li>-->
+
+            </ul>
+
+        </template>
+
+        <template id="einv_external_layout_standard" inherit_id="web.external_layout_standard">
+            <xpath expr="//div[contains(@t-attf-class,'header')]" position="replace">
+                <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                    <div class="row" style="border:none;">
+                        <div class="col-3 mb4">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+                        </div>
+                        <div class="col-9 text-left" style="margin-top:22px;" t-field="company.report_header" name="moto"/>
+                    </div>
+                    <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                        <div class="col-12">
+                            <div style="border-bottom: 1px solid black;"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" name="company_address">
+<!--                            <div t-field="company.partner_id"-->
+<!--                                t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'-->
+<!--                            />-->
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="einv_external_layout_boxed"
+                  inherit_id="web.external_layout_boxed">
+            <xpath expr="//div[contains(@t-attf-class,'header')]" postion = 'replace'>
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div class="o_boxed_header">
+            <div class="row mb8">
+                <div class="col-6">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                </div>
+                <div class="col-6 text-right mb4">
+                    <h4 class="mt0" t-field="company.report_header"/>
+                </div>
+            </div>
+            </div>
+        </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

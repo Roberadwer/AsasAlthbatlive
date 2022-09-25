@@ -1,0 +1,23 @@
+       <odoo>
+    <data>
+        <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr.contract</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[2]" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <page string="EOS Setup" name="eos_setup">
+                        <group name="main_info">
+                            <group string="EOS Setup">
+                                <field name="end_of_contract"/>
+                                <field name="reason_of_ending_contract"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

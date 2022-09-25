@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report id="action_termination_report"
+            model="hr.termination"
+            report_type="qweb-pdf"
+            string="Print Report"
+            name="termination.termination_template_id"
+            file="termination.termination_template_id"/>
+
+    <data>
+        <template id="termination_template_id">
+            <t t-call="web.html_container">
+                <t t-if="docs">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-call="web.external_layout">
+                            <t t-if="o.sales_person.lang =='en_US'">
+                                <div class="page" dir="ltr">
+                                    <h1 class="text-center">Termination</h1>
+                                    <br></br>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Employee Name :</strong>
+                                                        <span t-field="l.employee_id.name"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Handover :</strong>
+                                                        <span t-field="l.handover_id.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Comprehensive Wage :</strong>
+                                                        <span t-field="l.comprehensive_wage"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Absence Days Deduction :</strong>
+                                                        <span t-field="l.new_absence_days_deduction"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Other Allowances :</strong>
+                                                        <span t-field="l.other_allowances"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Other Deductions :</strong>
+                                                        <span t-field="l.other_deductions"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Duration :</strong>
+                                                        <span t-field="l.duration"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Deserved Salary :</strong>
+                                                        <span t-field="l.deserved_salary"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Total EOS :</strong>
+                                                        <span t-field="l.indemnity"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-if="o.sales_person.lang !='en_US'">
+                                <div class="page" dir="rtl">
+                                    <h1 class="text-center">نهاية خدمة</h1>
+                                    <br></br>
+                                   <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Employee Name :</strong>
+                                                        <span t-field="l.employee_id.name"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Country Name :</strong>
+                                                        <span t-field="l.country_id.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>From Date :</strong>
+                                                        <span t-field="l.today_date"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Return Date :</strong>
+                                                        <span t-field="l.return_date"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Comprehensive Wage :</strong>
+                                                        <span t-field="l.comprehensive_wage"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Absence Days Deduction :</strong>
+                                                        <span t-field="l.new_absence_days_deduction"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Other Allowances :</strong>
+                                                        <span t-field="l.other_allowances"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Other Deductions :</strong>
+                                                        <span t-field="l.other_deductions"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Duration :</strong>
+                                                        <span t-field="l.duration"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Deserved Salary :</strong>
+                                                        <span t-field="l.deserved_salary"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-striped text-left"
+                                           name="crossovered_budget_line_table"
+                                           style="width:100%;direction:ltr;">
+                                        <tbody>
+                                            <t t-foreach="docs" t-as="l">
+                                                <tr>
+                                                    <td style="width:50%;">
+                                                        <strong>Total Price :</strong>
+                                                        <span t-field="l.Total_price"/>
+                                                    </td>
+                                                    <td style="width:50%;">
+                                                        <strong>Reason :</strong>
+                                                        <span t-field="l.reason"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
